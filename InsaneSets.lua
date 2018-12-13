@@ -158,7 +158,7 @@ function table_print (tt, indent, done)
   end
 end
 
-function to_string( tbl ) --Test
+function to_string( tbl )
 	if DEBUG then
 	    if  "nil"       == type( tbl ) then
 	        return tostring(nil)
