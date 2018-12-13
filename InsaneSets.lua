@@ -11,6 +11,7 @@ local _VariantSets = {};
 local _SelectedID = nil;
 local testsets = {};
 local CurrentID = nil;
+local DEBUG = false;
 
 local BASE_SET_BUTTON_HEIGHT = 46;
 local VARIANT_SET_BUTTON_HEIGHT = 20;
@@ -64,7 +65,6 @@ function GetClassIDs()
 	local ClassIDs = {}
 	local MyClassID = nil;
 	local ComClass = nil;
-	table.insert(ClassIDs,0);
 	if classIndex == 1 or classIndex == 2 or classIndex == 6 then -- Warrior, Pala, DK
 		table.insert(ClassIDs,1);
 		table.insert(ClassIDs,2);
@@ -159,15 +159,17 @@ function table_print (tt, indent, done)
 end
 
 function to_string( tbl )
-    if  "nil"       == type( tbl ) then
-        return tostring(nil)
-    elseif  "table" == type( tbl ) then
-        return table_print(tbl)
-    elseif  "string" == type( tbl ) then
-        return tbl
-    else
-        return tostring(tbl)
-    end
+	if DEBUG then
+	    if  "nil"       == type( tbl ) then
+	        return tostring(nil)
+	    elseif  "table" == type( tbl ) then
+	        return table_print(tbl)
+	    elseif  "string" == type( tbl ) then
+	        return tbl
+	    else
+	        return tostring(tbl)
+	    end
+	end
 end
 
 -------------------------------------------------WardrobeCollectionFrame.SetsCollectionFrame--------------------------------------------------------------------------------------------
@@ -453,18 +455,22 @@ function GetBaseSets()
 
 		for index, data in ipairs(sets) do
 			if data.baseSetID == nil then
-				for i = 1, #UsableIDs do
-					if data.classMask == UsableIDs[i] and data.requiredFaction ~= ReverseFaction then
-						if data.classMask == MyClassID or data.classMask == ComonClass or type(data.requiredFaction) ~= "string" then
-							--Fix Uldir Set Order
-							if data.expansionID == 7 and data.uiOrder < 10000 then
-								data.uiOrder = uldirfix;
-								uldirfix = uldirfix + 1;
+				if data.classMask == 0 and data.collected == true then
+					table.insert(UsableSets,data);
+				else
+					for i = 1, #UsableIDs do
+						if data.classMask == UsableIDs[i] and data.requiredFaction ~= ReverseFaction then
+							if data.classMask == MyClassID or data.classMask == ComonClass or type(data.requiredFaction) ~= "string" then
+								--Fix Uldir Set Order
+								if data.expansionID == 7 and data.uiOrder < 10000 then
+									data.uiOrder = uldirfix;
+									uldirfix = uldirfix + 1;
+								end
+								table.insert(UsableSets,data);
 							end
-							table.insert(UsableSets,data);
 						end
-					end
-		      	end
+			      	end
+			    end
 		    else
 		    	for i = 1, #UsableIDs do
 					if data.classMask == UsableIDs[i] and data.requiredFaction ~= ReverseFaction then
