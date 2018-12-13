@@ -2,6 +2,6 @@
 ## Title: InsaneSets
 ## Notes: Shows all sets you can transmog on your sets tab.
 ## Author: LightVirus
-## Version: 0.1.0
+## Version: 0.1.1
 
 InsaneSets.lua
