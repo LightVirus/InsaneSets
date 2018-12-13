@@ -1,0 +1,7 @@
+## Interface: 81000
+## Title: InsaneSets
+## Notes: Shows all sets you can transmog on your sets tab.
+## Author: LightVirus
+## Version: 0.1.0
+
+InsaneSets.lua
